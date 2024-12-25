@@ -12,6 +12,7 @@ import Footer1 from "./components/Footer copy/footer1"
 import axios from "axios";
 import Header1 from "./components/Header copy/header";
 import cost from "./components/EstimateUsedCarPrice/EstimateUsedCarPrice"
+import ProfilePage from "./components/ProfilePage/ProfilePage";
 
 function App() {
   const [isLoading, setIsLoading] = useState(true); // For initial loading
@@ -64,6 +65,8 @@ function App() {
 
   return (
     <div>
+
+
       {(isLoading || isLoginLoading) && (
         <div className="load">
           <img id="svg" src={svg} alt="Logo" width="50" height="50" />
@@ -84,7 +87,7 @@ function App() {
                 <>
                   <Header handleShowSignUp={handleShowSignUp} />
                   <Hero />
-                </>
+]                </>
               )}
             </>
           )}
@@ -106,6 +109,9 @@ function App() {
           path="/login"
           element={<Login onLoginSuccess={handleLoginSuccess} setIsLoginLoading={setIsLoginLoading} />}
         />
+        <Route
+          path="/profile"
+          element={ ProfilePage}></Route>
       </Routes>
     </div>
   );

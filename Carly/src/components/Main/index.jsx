@@ -9,6 +9,7 @@ import Header1 from "../Header copy/header";
 import Footer1 from "../Footer copy 2/footer1";
 import Cost from "../EstimateUsedCarPrice/EstimateUsedCarPrice"
 import Footer2 from "../Footer copy/footer1"
+import ProfilePage from "../ProfilePage/ProfilePage";
 
 const Main = () => {
   const [userData, setUserData] = useState({
@@ -233,7 +234,10 @@ const Main = () => {
         <div className={styles.estimation_container}>
           <Cost/>
           <Footer1 />
-          
+          <button className={styles.white_btn1} onClick={handleLogout}>
+            <i className="icon-exit"></i> Logout
+          </button>
+
           <button className={styles.white_btn2} onClick={() => setCurrentView("main")}>
             Main
           </button>
@@ -252,6 +256,10 @@ const Main = () => {
       {currentView === "diy" && (
         <div className={styles.diy_container}>
           <DIYPage />
+          <button className={styles.white_btn1} onClick={handleLogout}>
+            <i className="icon-exit"></i> Logout
+          </button>
+
           <button className={styles.white_btn2} onClick={() => setCurrentView("main")}>
             Main
           </button>
@@ -271,6 +279,10 @@ const Main = () => {
         <div className={styles.consultation_container}>
           <ConsultationPage /> 
           <Footer1 />
+          <button className={styles.white_btn1} onClick={handleLogout}>
+            <i className="icon-exit"></i> Logout
+          </button>
+
           <button className={styles.white_btn2} onClick={() => setCurrentView("main")}>
             Main
           </button>
