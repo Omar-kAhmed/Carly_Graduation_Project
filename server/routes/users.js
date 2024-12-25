@@ -2,6 +2,9 @@ const express = require("express");
 const { User, validate } = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const Joi = require("joi");
+const multer = require("multer");
+const Appointment = require("../models/Appointment"); // Import the Appointment model
 
 const router = express.Router();
 
@@ -14,65 +17,73 @@ const authMiddleware = (req, res, next) => {
 
     try {
         const decoded = jwt.verify(token, process.env.JWTPRIVATEKEY);
-        req.user = decoded; // Save user info from token to the request
+        req.user = decoded;
         next();
     } catch (error) {
-        console.error("Token verification failed:", error);
         res.status(400).send({ message: "Session expired or invalid. Please log in again." });
     }
 };
 
-// Route to get the authenticated user's details
-router.get("/me", authMiddleware, async (req, res) => {
+// Middleware to fetch user details
+const fetchUserMiddleware = async (req, res, next) => {
     try {
         const user = await User.findById(req.user._id);
-        if (!user) {
-            return res.status(404).send({ message: "User not found" });
-        }
-        res.status(200).send(user); // Send user details
+        if (!user) return res.status(404).send({ message: "User not found" });
+        req.userDetails = user;
+        next();
     } catch (error) {
-        console.error("Error in /me route:", error);
-        res.status(500).send({ message: "Something went wrong. Please try again later." });
+        next(error);
     }
+};
+
+// Utility to calculate miles per day
+const calculateMilesPerDay = (milesDriven, carYear) => {
+    const currentYear = new Date().getFullYear();
+    const carAgeYears = Math.max(currentYear - carYear, 1);
+    return milesDriven / (365 * carAgeYears);
+};
+
+// Input validation schema for updating miles
+const updateMilesSchema = Joi.object({
+    milesDriven: Joi.number().positive().required(),
+});
+
+const validateUpdateMiles = (req, res, next) => {
+    const { error } = updateMilesSchema.validate(req.body);
+    if (error) {
+        return res.status(400).send({ message: error.details[0].message });
+    }
+    next();
+};
+
+// Route to get the authenticated user's details
+router.get("/me", authMiddleware, fetchUserMiddleware, (req, res) => {
+    res.status(200).send(req.userDetails);
 });
 
 // Route to update the authenticated user's miles driven
-router.put("/update-miles", authMiddleware, async (req, res) => {
+router.put("/update-miles", authMiddleware, fetchUserMiddleware, validateUpdateMiles, async (req, res, next) => {
     try {
-        const { milesDriven } = req.body;
-
-        if (!milesDriven || isNaN(milesDriven)) {
-            return res.status(400).send({ message: "Please provide a valid number for miles driven." });
-        }
-
-        const user = await User.findById(req.user._id);
-        if (!user) {
-            return res.status(404).send({ message: "User not found" });
-        }
-
+        const { userDetails: user } = req;
         const currentDate = new Date();
         const lastUpdateDate = new Date(user.lastUpdate);
-        const daysPassed = Math.floor((currentDate - lastUpdateDate) / (1000 * 60 * 60 * 24)); // Calculate days passed
+        const daysPassed = Math.floor((currentDate - lastUpdateDate) / (1000 * 60 * 60 * 24));
 
-        // Calculate the new miles to be added (based on an average per day)
-        const milesPerDay = milesDriven / (365 * Math.max(currentDate.getFullYear() - user.carYear, 1));  // average miles driven per day
-        const updatedMiles = user.milesDriven + milesPerDay * daysPassed;
+        const milesPerDay = calculateMilesPerDay(user.milesDriven, user.carYear);
+        const additionalMiles = milesPerDay * daysPassed;
 
-        // Update milesDriven and lastUpdate
-        user.milesDriven = updatedMiles.toFixed(2); // Fix to two decimal places
-        user.lastUpdate = currentDate; // Update the lastUpdate field with current time
-
+        user.milesDriven += additionalMiles;
+        user.lastUpdate = currentDate;
         await user.save();
 
-        return res.status(200).send({ message: "Miles updated successfully", user });
-    } catch (error) {
-        console.error("Error in /update-miles route:", error);
-        res.status(500).send({ message: "Something went wrong. Please try again later." });
+        res.status(200).send({ message: "Miles updated successfully", user });
+    } catch (err) {
+        next(err);
     }
 });
 
 // Route to register a new user
-router.post("/", async (req, res) => {
+router.post("/", async (req, res, next) => {
     try {
         const { error } = validate(req.body);
         if (error) {
@@ -88,23 +99,21 @@ router.post("/", async (req, res) => {
         const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
         const user = new User({
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            email: req.body.email,
-            password: hashedPassword,
-            carMake: req.body.carMake,
-            carModel: req.body.carModel,
-            carYear: req.body.carYear,
-            milesDriven: req.body.milesDriven || 0, // Default to 0 if not provided
-            lastUpdate: Date.now(), // Initialize lastUpdate to the current time
+            ...req.body,
+            lastUpdate: Date.now(),
         });
 
         await user.save();
         res.status(201).send({ message: "User created successfully" });
     } catch (error) {
-        console.error("Error in user registration:", error);
-        res.status(500).send({ message: "Error while creating user" });
+        next(error);
     }
+});
+
+
+// Error handling middleware
+router.use((err, req, res, next) => {
+    res.status(err.status || 500).send({ message: err.message || "Internal Server Error" });
 });
 
 module.exports = router;

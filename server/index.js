@@ -1,12 +1,14 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const connection = require("./db");
+const connection = require("./lib/db");
 const UserRoutes = require("./routes/users");
 const AuthRoutes = require("./routes/auth");
 const { User } = require("./models/user");
 const path = require('path');
 const diyRoutes = require('./routes/diy'); // Import the diyRoutes file
+const usedCarPriceRoutes = require('./routes/usedCarPrice'); // Import the usedCarPrice route
+const messageRoutes = require("./routes/message.route");
 
 const app = express();
 
@@ -24,11 +26,12 @@ app.use(cors({
 // Routes
 app.use("/api/users", UserRoutes);
 app.use("/api/auth", AuthRoutes);
-app.use("/", diyRoutes);  // Add this line to use the diyRoutes
+app.use("/api/messages", messageRoutes); // Message routes
+app.use("/api/used-car-price", usedCarPriceRoutes);  // Used car price routes
+app.use("/", diyRoutes);  // DIY routes
 
 // Static folder for local videos
 app.use('/videos', express.static(path.join(__dirname, 'videos')));
-app.use('/', require('./routes/diy'));
 
 // Test API Route
 app.get("/", (req, res) => res.send("API is running..."));

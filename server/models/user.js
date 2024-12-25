@@ -11,21 +11,23 @@ const userSchema = new mongoose.Schema({
     carMake: { type: String, required: true },
     carModel: { type: String, required: true },
     carYear: { type: Number, required: true },
-    milesDriven: { type: Number, required: true },
-    lastUpdate: { type: Date, default: Date.now },  // This ensures `lastUpdate` is set to the current date when a new user is created
+    milesDriven: { type: Number, default: 0 }, // Default to 0 if not provided
+    lastUpdate: { type: Date, default: Date.now }, // Default to current date
 });
 
+// Method to generate JWT tokens
 userSchema.methods.generateAuthTokens = function () {
     const token = jwt.sign(
         { _id: this._id }, // Payload
-        process.env.JWTPRIVATEKEY, // Secret key from .env
-        { expiresIn: "7d" } // Options
+        process.env.JWTPRIVATEKEY, // Secret key
+        { expiresIn: "7d" } // Token validity
     );
     return token;
 };
 
 const User = mongoose.model("User", userSchema);
 
+// Validation schema for new user data
 const validate = (data) => {
     const schema = Joi.object({
         firstName: Joi.string().required().label("First Name"),
@@ -34,8 +36,13 @@ const validate = (data) => {
         password: passwordComplexity().required().label("Password"),
         carMake: Joi.string().required().label("Car Make"),
         carModel: Joi.string().required().label("Car Model"),
-        carYear: Joi.number().integer().min(1886).max(new Date().getFullYear()).required().label("Car Year"),
-        milesDriven: Joi.number().integer().min(0).required().label("Miles Driven"),
+        carYear: Joi.number()
+            .integer()
+            .min(1886)
+            .max(new Date().getFullYear() + 10) // Allow up to 10 years in the future
+            .required()
+            .label("Car Year"),
+        milesDriven: Joi.number().integer().min(0).default(0).label("Miles Driven"),
     });
     return schema.validate(data);
 };

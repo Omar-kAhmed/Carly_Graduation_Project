@@ -21,15 +21,18 @@ const diyVideos = [
   { id: 18, title: "Change Coolant Fluid", type: "youtube", url: "https://www.youtube.com/embed/yVdKMIe2Dw0" },
   { id: 19, title: "Replace Cabin Air Filter", type: "youtube", url: "https://www.youtube.com/embed/U42xcI91eIA" },
   { id: 20, title: "Fix a Broken Mirror", type: "youtube", url: "https://www.youtube.com/embed/kugvJRbfm_s" },
-
-
 ];
 
-// Route to fetch DIY videos
+// Route to fetch DIY videos with pagination
 router.get("/api/diy-videos", (req, res) => {
-  console.log("Fetching DIY videos...");
+  const limit = parseInt(req.query.limit) || 20; // Default to 8 videos
+  const offset = parseInt(req.query.offset) || 0; // Default to offset 0
+  
+  console.log(`Fetching DIY videos... Limit: ${limit}, Offset: ${offset}`);
+
   try {
-    res.json(diyVideos); // Send the video data as JSON
+    const paginatedVideos = diyVideos.slice(offset, offset + limit);
+    res.json(paginatedVideos); // Send paginated video data as JSON
   } catch (err) {
     console.error("Error fetching videos:", err);
     res.status(500).json({ error: err.message });
