@@ -225,7 +225,7 @@ const Main = () => {
             </button>
             <button 
   className={styles.white_btn3} 
-  onClick={() => window.location.href = "https://carly-chat1.onrender.com"}
+  onClick={() => window.location.href = "https://carlytalk.onrender.com"}
 >
   Consultation
 </button>
@@ -250,7 +250,7 @@ const Main = () => {
           </button>
           <button 
   className={styles.white_btn3} 
-  onClick={() => window.location.href = "https://carly-chat1.onrender.com"}
+  onClick={() => window.location.href = "https://carlytalk.onrender.com"}
 >
   Consultation
 </button>
@@ -276,7 +276,7 @@ const Main = () => {
           </button>
           <button 
   className={styles.white_btn3} 
-  onClick={() => window.location.href = "https://carly-chat1.onrender.com"}
+  onClick={() => window.location.href = "https://carlytalk.onrender.com"}
 >
   Consultation
 </button>
