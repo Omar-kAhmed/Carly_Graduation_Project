@@ -55,7 +55,10 @@ const Signup = () => {
 					</div>
 					<div className={styles.right}>
 						<form className={styles.form_container} onSubmit={handleSubmit}>
-							<h1>Create Account</h1>
+							<h1 className={styles.create} >Create Account</h1>
+							
+							<div className={styles.move}>
+
 							<input
 								type="text"
 								placeholder="First Name"
@@ -65,6 +68,7 @@ const Signup = () => {
 								required
 								className={styles.input1}
 							/>
+							<h1 className={styles.create1}>Register New Account</h1>
 							<input
 								type="text"
 								placeholder="Last Name"
@@ -117,7 +121,7 @@ const Signup = () => {
 								onChange={handleChange}
 								value={data.carYear}
 								required
-								min="1886"
+								min="2000"
 								max={new Date().getFullYear()}
 								className={styles.input7}
 							/>
@@ -131,6 +135,8 @@ const Signup = () => {
 								min="0"
 								className={styles.input8}
 							/>
+														</div>
+
 							{error && <div className={styles.error_msg}>{error}</div>}
 							<button type="submit" className={styles.green_btn}>
 								Sign Up

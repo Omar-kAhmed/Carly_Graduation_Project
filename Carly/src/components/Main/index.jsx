@@ -193,7 +193,7 @@ const Main = () => {
           </button>
 
           <button className={styles.white_btn4} onClick={() => setCurrentView("diy")}>
-            DIY
+            DIY & Maintainance Guide
           </button>
 
           <h1 className={styles.Welcome}>
@@ -223,6 +223,13 @@ const Main = () => {
             <button onClick={handlePricingClick} className={styles.pricing_button}>
               Pricing
             </button>
+            <button 
+  className={styles.white_btn3} 
+  onClick={() => window.location.href = "https://carly-chat1.onrender.com"}
+>
+  Consultation
+</button>
+
           </div>
           <Footer1 />
 
@@ -241,11 +248,15 @@ const Main = () => {
           <button className={styles.white_btn2} onClick={() => setCurrentView("main")}>
             Main
           </button>
-          <button className={styles.white_btn3} onClick={() => setCurrentView("consultation")}>
-            Consultation
-          </button>
+          <button 
+  className={styles.white_btn3} 
+  onClick={() => window.location.href = "https://carly-chat1.onrender.com"}
+>
+  Consultation
+</button>
+
           <button className={styles.white_btn4} onClick={() => setCurrentView("diy")}>
-            DIY
+          DIY & Maintainance Guide
           </button>
           <button onClick={handlePricingClick} className={styles.pricing_button}>
               Pricing
@@ -263,11 +274,15 @@ const Main = () => {
           <button className={styles.white_btn2} onClick={() => setCurrentView("main")}>
             Main
           </button>
-          <button className={styles.white_btn3} onClick={() => setCurrentView("consultation")}>
-            Consultation
-          </button>
+          <button 
+  className={styles.white_btn3} 
+  onClick={() => window.location.href = "https://carly-chat1.onrender.com"}
+>
+  Consultation
+</button>
+
           <button className={styles.white_btn4} onClick={() => setCurrentView("diy")}>
-            DIY
+          DIY & Maintainance Guide
           </button>
           <button onClick={handlePricingClick} className={styles.pricing_button}>
               Pricing
@@ -275,28 +290,7 @@ const Main = () => {
         </div>
       )}
 
-      {currentView === "consultation" && (
-        <div className={styles.consultation_container}>
-          <ConsultationPage /> 
-          <Footer1 />
-          <button className={styles.white_btn1} onClick={handleLogout}>
-            <i className="icon-exit"></i> Logout
-          </button>
-
-          <button className={styles.white_btn2} onClick={() => setCurrentView("main")}>
-            Main
-          </button>
-          <button className={styles.white_btn3} onClick={() => setCurrentView("consultation")}>
-            Consultation
-          </button>
-          <button className={styles.white_btn4} onClick={() => setCurrentView("diy")}>
-            DIY
-          </button>
-          <button onClick={handlePricingClick} className={styles.pricing_button}>
-              Pricing
-            </button>
-        </div>
-      )}
+   
 
     </div>
   );

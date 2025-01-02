@@ -49,6 +49,7 @@
   .active{
     margin-left: 0rem;
   }
+
  
   .Signuph{
     font-size: 1.125rem;
@@ -145,6 +146,31 @@
 
   #icon-home1{
     position: absolute;
-    left: 5.6rem;
-    top: 0rem;
+    left: 2.3rem;
+    top: 1rem;
+    font-size: 22px;
+  }
+
+ 
+
+  #icon-contact{
+    position: absolute;
+    left: 22.3rem;
+    top: 1rem;
+    font-size: 22px;
+  }
+
+  #icon-eng{
+    position: absolute;
+    left: 36.9rem;
+    top: 1rem;
+    font-size: 24px;
+    color: white;
+  }
+
+  #icon-price{
+    position: absolute;
+    left: 11.5rem;
+    top: 1rem;
+    font-size: 22px;
   }

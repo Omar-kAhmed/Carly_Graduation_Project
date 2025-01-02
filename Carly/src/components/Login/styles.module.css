@@ -18,15 +18,15 @@
 }
 
 .login_form_container {
-	width: 900px;
-	height: 500px;
+	width: 1200px;
+	height: 630px;
 	display: flex;
 	border-radius: 10px;
 	box-shadow: 0px 3px 3px -2px rgb(0 0 0 / 20%),
 		0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%);
 		position: absolute;
-		top: 20%;
-		left: 20%;
+		top: 11%;
+		left: 8%;
 }
 
 .left {
@@ -49,21 +49,21 @@
 .form_container h1 {
 	font-size: 40px;
 	margin-top: -40px;
-	margin-left: 50px;
+	margin-left: 150px;
 }
 
 .input {
 	outline: none;
 	border: none;
-	width: 370px;
+	width: 450px;
 	padding: 15px;
 	border-radius: 10px;
 	background-color: #f3000020;
 	margin: 5px 0;
 	font-size: 14px;
 	position: absolute;
-	left: 10%;
-	top: 2000%;
+	left: 20%;
+	top: 2500%;
 	color: #080505;
 	outline: black 1px 1px 1px 1px solid;
 }
@@ -71,15 +71,15 @@
 .input1{
 	outline: none;
 	border: none;
-	width: 370px;
+	width: 450px;
 	padding: 15px;
 	border-radius: 10px;
 	background-color: #f3000020;
 	margin: 5px 0;
 	font-size: 14px;
 	position: absolute;
-	left: 10%;
-	top: 700%;
+	left: 20%;
+	top: 1200%;
 	color: #080505;
 }
 
@@ -152,6 +152,8 @@
 	color: white;
 	font-size: 40px;
 	align-self: center;
+	position: absolute;
+	top: 35%;
 }
 
 .white_btn,
@@ -165,6 +167,9 @@
 	font-weight: bold;
 	font-size: 14px;
 	cursor: pointer;
+	position: absolute;
+	top: 42.5%;
+	left: 75.5%;
 	
 }
 
@@ -173,8 +178,9 @@
 	color: white;
 	margin: 10px;
 	position: absolute;
-	top: 4000%;
-	left: 32%;
+	top: 4450%;
+	left: 25%;
+	width: 400px;
 }
 
 

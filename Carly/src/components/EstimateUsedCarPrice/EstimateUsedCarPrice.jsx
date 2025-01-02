@@ -14,7 +14,7 @@ const EstimateUsedCarPrice = () => {
   const [estimatedPrice, setEstimatedPrice] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false); // State to show loading spinner
-
+  
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,6 +26,9 @@ const EstimateUsedCarPrice = () => {
     // Validate inputs before sending
     if (!newPrice || !age || !mileage || !condition || typeof isLuxury !== "boolean") {
       setErrorMessage("Please fill all the fields correctly.");
+      setTimeout(() => {
+        setErrorMessage(''); // Clear the error message after 3 seconds
+      }, 3000);
       return;
     }
 
@@ -53,18 +56,20 @@ const EstimateUsedCarPrice = () => {
     } catch (error) {
       // Handle error
       setErrorMessage('Failed to estimate used car price. Please try again.');
+      setTimeout(() => {
+        setErrorMessage(''); // Clear the error message after 3 seconds
+      }, 1000);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className=" estimate-container">
+    <div className="estimate-container">
       <h2 className='maintitle'>Estimate Used Car Price</h2>
       <form onSubmit={handleSubmit} className="estimate-form">
         <div className="form-group">
-        <div className="black1"></div>
-
+          <div className="black1"></div>
           <label className='lprice' htmlFor="newPrice">New Car Price ($)</label>
           <input
             type="number"
@@ -89,6 +94,7 @@ const EstimateUsedCarPrice = () => {
             className="form-control1"
             placeholder='car Age'
             min="0"
+            max="25"
           />
         </div>
 
@@ -147,9 +153,9 @@ const EstimateUsedCarPrice = () => {
         </div>
       )}
 
-      {/* Display error message if any */}
+      {/* Display error message with animation */}
       {errorMessage && (
-        <div className="mt-4 alert alert-danger">
+        <div className={`mt-4 alert alert-danger ${errorMessage ? 'show' : ''}`}>
           {errorMessage}
         </div>
       )}
